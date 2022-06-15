@@ -4,34 +4,20 @@ import org.junit.jupiter.api.Test;
 import ru.netology.product.Book;
 import ru.netology.product.Product;
 
-import static org.junit.jupiter.api.Assertions.assertArrayEquals;
+import static org.junit.jupiter.api.Assertions.*;
 
-public class ProductRepositoryTest {
+class ProductRepositoryTest {
     private ProductRepository repository = new ProductRepository();
-    private Book coreJava = new Book();
-    Product first = new Book(1, "Название книги1", 2000, "Фамилия автора1");
-    Product second = new Book(2, "Название книги2", 3000, "Фамилия автора2");
+    private Book firstBook = new Book(1, "Название книги1", 1000, "Фамилия автора1");
+    private Book secondBook = new Book(2, "Название книги2", 2000, "Фамилия автора1");
 
     @Test
-    public void shouldSaveOneItem() {
-        repository.save(coreJava);
-
-        Product[] expected = new Product[]{coreJava};
-        Product[] actual = repository.getAll();
-
+    public void shouldRemoveByID() {
+        repository.save(firstBook);
+        repository.save(secondBook);
+        Product[] expected = new Product[]{secondBook};
+        repository.removeById(1);
+        Product[] actual = repository.findAll();
         assertArrayEquals(expected, actual);
-    }
-    @Test
-    public void shouldRemoveIfExists() {
-        repository.save(first);
-
-        int idToRemove=1;
-        repository.removeById(idToRemove);
-
-        Product[] expected = new Product[] {};
-        Product[] actual = repository.getAll();
-
-        assertArrayEquals(expected, actual);
-
     }
 }
